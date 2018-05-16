@@ -21,11 +21,11 @@ public class SearchPage {
 
     WebElement searchAreaElement = driver.findElement(By.id("lst-ib"));
 
-    searchAreaElement.sendKeys("Apple");
+    searchAreaElement.sendKeys(text);
 
     searchAreaElement.sendKeys(Keys.ENTER);
 
-    Assert.assertTrue(driver.getTitle().startsWith("Apple"));
+    Assert.assertTrue(driver.getTitle().startsWith(text));
 
     List<WebElement> webElements =
         driver.findElements(By.cssSelector("#hdtb-msb-vis>div:nth-of-type(2)>a"));

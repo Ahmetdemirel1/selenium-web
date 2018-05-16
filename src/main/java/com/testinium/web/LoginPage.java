@@ -5,13 +5,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
   WebDriver webDriver;
+  WebDriverWait webDriverWait;
 
   public LoginPage(WebDriver webDriver) {
     this.webDriver = webDriver;
+    this.webDriverWait = new WebDriverWait(webDriver, 30, 150);
   }
 
   public void login(String username, String password) {
@@ -24,7 +28,7 @@ public class LoginPage {
     Actions actions = new Actions(webDriver);
     actions.moveToElement(mainLoginButton).build().perform();
     WebElement loginElement = webDriver.findElement(By.cssSelector("#login"));
-    loginElement.click();
+    webDriverWait.until(ExpectedConditions.elementToBeClickable(loginElement)).click();
 
     webDriver.findElement(By.id("email")).sendKeys(username);
 
@@ -36,6 +40,10 @@ public class LoginPage {
     actions = new Actions(webDriver);
     actions.moveToElement(mainLoginButton).build().perform();
 
-    Assert.assertTrue(webDriver.findElement(By.cssSelector(".logout")).isDisplayed());
+    WebElement logoutElement = webDriver.findElement(By.cssSelector(".logout"));
+    webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutElement));
+    System.out.println(logoutElement.getText());
+
+    Assert.assertEquals("Çıkış Yap", logoutElement.getText());
   }
 }
