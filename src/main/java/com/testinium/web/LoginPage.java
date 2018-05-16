@@ -23,12 +23,10 @@ public class LoginPage {
     webDriver.findElement(
         By.cssSelector(".insider-opt-in-notification-button.insider-opt-in-disallow-button"))
         .click();
-    WebElement mainLoginButton = webDriver.findElement(By.id("myAccount"));
-    mainLoginButton.click();
-    Actions actions = new Actions(webDriver);
-    actions.moveToElement(mainLoginButton).build().perform();
-    WebElement loginElement = webDriver.findElement(By.cssSelector("#login"));
-    webDriverWait.until(ExpectedConditions.elementToBeClickable(loginElement)).click();
+
+    openLoginMenu();
+
+    webDriverWait.until(ExpectedConditions.elementToBeClickable(By.id("login"))).click();
 
     webDriver.findElement(By.id("email")).sendKeys(username);
 
@@ -36,14 +34,19 @@ public class LoginPage {
 
     webDriver.findElement(By.cssSelector(".btn.full.btn-login-submit")).click();
 
-    mainLoginButton = webDriver.findElement(By.id("myAccount"));
-    actions = new Actions(webDriver);
-    actions.moveToElement(mainLoginButton).build().perform();
+    openLoginMenu();
 
     WebElement logoutElement = webDriver.findElement(By.cssSelector(".logout"));
     webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutElement));
     System.out.println(logoutElement.getText());
 
     Assert.assertEquals("Çıkış Yap", logoutElement.getText());
+  }
+
+  private void openLoginMenu() {
+    WebElement mainLoginButton = webDriver.findElement(By.id("myAccount"));
+    mainLoginButton.click();
+    Actions actions = new Actions(webDriver);
+    actions.moveToElement(mainLoginButton).build().perform();
   }
 }
